@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Revenue Forecasting</h2>
+<p class="text-muted">30-day revenue forecast using Facebook Prophet.</p>
+
+<div class="card">
+    <div class="card-body">
+        <canvas id="forecastChart"></canvas>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const API_URL = 'http://localhost:8000/api';
+        
+        if (window.location.pathname === '/forecast') {
+            fetch(`${API_URL}/forecast/?periods=30`)
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('forecastChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.map(item => new Date(item.ds).toLocaleDateString()),
+                            datasets: [
+                                {
+                                    label: 'Forecasted Revenue',
+                                    data: data.map(item => item.yhat),
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    fill: false
+                                },
+                                {
+                                    label: 'Upper Bound',
+                                    data: data.map(item => item.yhat_upper),
+                                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                                    fill: '+1',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.1)'
+                                },
+                                {
+                                    label: 'Lower Bound',
+                                    data: data.map(item => item.yhat_lower),
+                                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                                    fill: false
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                filler: {
+                                    propagate: true
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+    });
+</script>
+{% endblock %}

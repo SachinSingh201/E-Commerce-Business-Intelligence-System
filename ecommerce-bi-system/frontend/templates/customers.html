@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<ul class="nav nav-tabs" id="customerTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="latest-tab" data-bs-toggle="tab" data-bs-target="#latest" type="button" role="tab">Latest Customers</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="segmentation-tab" data-bs-toggle="tab" data-bs-target="#segmentation" type="button" role="tab">Segmentation (RFM)</button>
+  </li>
+</ul>
+<div class="tab-content mt-3" id="customerTabsContent">
+  <div class="tab-pane fade show active" id="latest" role="tabpanel">
+    <h3>Latest 100 Customers</h3>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Order Time</th>
+                        <th>Order Value</th>
+                    </tr>
+                </thead>
+                <tbody id="latest-customers-body">
+                    <!-- Data will be loaded here via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="segmentation" role="tabpanel">
+    <h3>Customer Segmentation</h3>
+    <p class="text-muted">RFM analysis results.</p>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Recency (Days)</th>
+                        <th>Frequency</th>
+                        <th>Monetary</th>
+                        <th>Segment</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-table-body">
+                    <!-- Data will be loaded here via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
